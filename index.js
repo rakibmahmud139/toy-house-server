@@ -34,9 +34,11 @@ async function run() {
         await client.connect();
 
         const toyCollection = client.db('toyHouse').collection('allToys');
+        const myToyCollection = client.db('toyHouse').collection('myToys');
 
 
 
+        // all toys
 
         app.get('/allToys', async (req, res) => {
             const result = await toyCollection.find().toArray();
@@ -55,11 +57,21 @@ async function run() {
         })
 
 
+
+
+        //my toys
+
         //create
-        app.post('/allToys', async (req, res) => {
+        app.post('/myToys', async (req, res) => {
             const newToy = req.body;
-            const result = await toyCollection.insertOne(newToy);
+            const result = await myToyCollection.insertOne(newToy);
             res.send(result);
+        })
+
+
+        app.get('/myToys', async (req, res) => {
+            const result = await myToyCollection.find().toArray()
+            res.send(result)
         })
 
 
